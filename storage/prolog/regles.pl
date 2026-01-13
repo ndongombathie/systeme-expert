@@ -27,9 +27,12 @@ credits_ue(UE, 0) :-
     ue(UE, _, _, _, _, _),
     \+ ue_validee(UE).
 
+% CORRECTION ICI : Ne compter que les UE avec des notes
 credits_annuels(Total) :-
-    findall(C, (ec(UE, _, _), credits_ue(UE, C)), ListeCredits),
-    sum_list(ListeCredits, Total).
+    findall(UE, ec(UE, _, _), UEs_avec_notes),
+    list_to_set(UEs_avec_notes, UEs_uniques),
+    findall(C, (member(UE, UEs_uniques), credits_ue(UE, C)), L),
+    sum_list(L, Total).
 
 
 moyenne_annuelle(Moy) :-
