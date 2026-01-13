@@ -1,29 +1,22 @@
-% ===============================
-% FILIÈRES
-% ===============================
+
 filiere(informatique).
 filiere(physique_chimie).
 filiere(sciences_eaux_env).
 filiere(math_info).
 
-% ===============================
-% NIVEAUX
-% ===============================
 niveau(l1).
 niveau(l2).
 niveau(l3).
 niveau(m1).
 niveau(m2).
 
-% ===============================
 % UE(UE, Filiere, Niveau, Semestre, Credits, Coef)
-% ===============================
 
 % INFORMATIQUE
-ue(algorithmique, informatique, l1, 1, 6, 2).
-ue(programmation, informatique, l1, 1, 6, 2).
-ue(structures_donnees, informatique, l2, 3, 6, 2).
-ue(bases_donnees, informatique, l2, 4, 6, 2).
+ue(algorithmique, informatique, l1, 1, 8, 3).
+ue(mathematique, informatique, l1, 1, 8, 3).
+ue(physique, informatique, l1, 1, 8, 3).
+ue(humanites_et_entreprises, informatique, l1, 1, 6, 2).
 ue(genie_logiciel, informatique, l3, 5, 6, 2).
 ue(securite, informatique, l3, 6, 6, 2).
 ue(intelligence_artificielle, informatique, m1, 1, 6, 2).

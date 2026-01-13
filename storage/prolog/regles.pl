@@ -2,12 +2,10 @@
 :- dynamic ec/3.
 % ec(UE, EC, Note)
 
-% ===============================
-% MOYENNE UE
-% ===============================
+
 moyenne_ue(UE, Moy) :-
     findall(N, ec(UE, _, N), L),
-    L \= [],  % Vérifier que la liste nest pas vide
+    L \= [],
     sum_list(L, S),
     length(L, Nbr),
     Nbr > 0,
@@ -21,9 +19,6 @@ ue_non_validee(UE) :-
     moyenne_ue(UE, M),
     M < 10.
 
-% ===============================
-% CRÉDITS
-% ===============================
 credits_ue(UE, C) :-
     ue(UE, _, _, _, C, _),
     ue_validee(UE).
@@ -32,60 +27,24 @@ credits_ue(UE, 0) :-
     ue(UE, _, _, _, _, _),
     \+ ue_validee(UE).
 
-% ===============================
-% CRÉDITS SEMESTRIELS
-% ===============================
-% Ne compter que les UE avec des notes pour un semestre donné
-credits_semestriels(Semestre, Total) :-
-    findall(UE, (ec(UE, _, _), ue(UE, Semestre, _, _, _, _)), UEs_avec_notes),
-    list_to_set(UEs_avec_notes, UEs_uniques),
-    findall(C, (member(UE, UEs_uniques), credits_ue(UE, C)), L),
-    sum_list(L, Total).
-
-
-% CORRECTION ICI : Ne compter que les UE avec des notes
 credits_annuels(Total) :-
-    findall(UE, ec(UE, _, _), UEs_avec_notes),
-    list_to_set(UEs_avec_notes, UEs_uniques),
-    findall(C, (member(UE, UEs_uniques), credits_ue(UE, C)), L),
-    sum_list(L, Total).
+    findall(C, (ec(UE, _, _), credits_ue(UE, C)), ListeCredits),
+    sum_list(ListeCredits, Total).
 
 
-% ===============================
-% MOYENNE SEMESTRIELLE PONDÉRÉE
-% ===============================
-moyenne_semestrielle(Semestre, Moy) :-
-    findall(MC,
-        ( ue(UE, Semestre, _, _, _, Coef),
-          moyenne_ue(UE, M),
-          MC is M * Coef ),
-        L),
-    L \= [],  % Vérifier que la liste nest pas vide
-    findall(Coef, (ue(UE, Semestre, _, _, _, Coef), moyenne_ue(UE, _)), Coefs),
-    sum_list(L, Num),
-    sum_list(Coefs, Den),
-    Den > 0,
-    Moy is Num / Den.
-
-% ===============================
-% MOYENNE ANNUELLE PONDÉRÉE
-% ===============================
 moyenne_annuelle(Moy) :-
     findall(MC,
         ( ue(UE, _, _, _, _, Coef),
           moyenne_ue(UE, M),
           MC is M * Coef ),
         L),
-    L \= [],  % Vérifier que la liste nest pas vide
+    L \= [],
     findall(Coef, (ue(UE, _, _, _, _, Coef), moyenne_ue(UE, _)), Coefs),
     sum_list(L, Num),
     sum_list(Coefs, Den),
     Den > 0,
     Moy is Num / Den.
 
-% ===============================
-% RÈGLES PÉDAGOGIQUES
-% ===============================
 passage_automatique :- credits_annuels(60).
 
 passage_conditionnel :-
@@ -115,3 +74,4 @@ decision(D, J) :-
         D = 'Redoublement',
         J = 'Crédits insuffisants'
     ).
+

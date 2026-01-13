@@ -1,59 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Système Expert — Documentation des endpoints API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet expose une API REST pour l’orientation académique via un système expert Prolog. Cette documentation couvre les endpoints disponibles, les paramètres, les schémas de requêtes et les réponses.
 
-## About Laravel
+## Base URL
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Les routes API sont préfixées par `/api`.
+- Exemple: `GET /api/ues/{filiere}/{niveau}`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Authentification
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `GET /api/user` requiert une authentification via Sanctum (`auth:sanctum`).
+- Les autres endpoints sont publics.
 
-## Learning Laravel
+## Endpoints
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1) GET `/api/ues/{filiere}/{niveau}`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Rôle: retourne la liste des UEs et leurs ECs pour une filière et un niveau.
+- Paramètres de chemin:
+  - `filiere`: ex. `informatique`, `physique_chimie`, `sciences_eaux_env`, `math_info`
+  - `niveau`: ex. `l1`, `l2`, `l3`
+- Réponse: `200 OK` avec JSON
 
-## Laravel Sponsors
+Exemple de requête:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+curl -s http://localhost:8000/api/ues/informatique/l1
+```
 
-### Premium Partners
+Exemple de réponse:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```json
+[
+  {
+    "code": "algorithmique",
+    "nom": "algorithmique",
+    "ecs": ["algorithme_et_programmation_1", "introducrion_au_systeme_dexploitation"]
+  },
+  {
+    "code": "mathematique",
+    "nom": "mathematique",
+    "ecs": ["analyse_1", "algebre_1"]
+  }
+]
+```
 
-## Contributing
+### 2) POST `/api/guidance/analyse`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Rôle: envoie les notes par EC au système expert Prolog et retourne une décision, une justification et des conseils.
+- Corps JSON attendu:
 
-## Code of Conduct
+```json
+{
+  "ues": [
+    {
+      "code": "algorithmique",
+      "ecs": [
+        { "nom": "algorithme_et_programmation_1", "note": 14 },
+        { "nom": "introducrion_au_systeme_dexploitation", "note": 12 }
+      ]
+    },
+    {
+      "code": "mathematique",
+      "ecs": [
+        { "nom": "analyse_1", "note": 10 },
+        { "nom": "algebre_1", "note": 9 }
+      ]
+    }
+  ]
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Exemple de requête:
 
-## Security Vulnerabilities
+```bash
+curl -sX POST http://localhost:8000/api/guidance/analyse \
+  -H "Content-Type: application/json" \
+  -d '{"ues":[{"code":"algorithmique","ecs":[{"nom":"algorithme_et_programmation_1","note":14},{"nom":"introducrion_au_systeme_dexploitation","note":12}]}]}'
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Réponse réussie (`200 OK`):
 
-## License
+```json
+{
+  "decision": "admis",
+  "justification": "moyenne supérieure ou égale au seuil",
+  "conseils": ["continuer sur la même lancée", "renforcer les bases en mathématiques"]
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Codes source associés
+
+- Routes API: [api.php](file:///c:/Users/NDONGO/Desktop/Master%201/Semestre%201/Introduction%20IA/systeme-expert/routes/api.php)
+- Contrôleur: [GuidanceController.php](file:///c:/Users/NDONGO/Desktop/Master%201/Semestre%201/Introduction%20IA/systeme-expert/app/Http/Controllers/GuidanceController.php)
+- Données UFR/UE: [ufr_set.php](file:///c:/Users/NDONGO/Desktop/Master%201/Semestre%201/Introduction%20IA/systeme-expert/config/ufr_set.php)
+
+## Notes techniques
+
+- L’analyse appelle SWI-Prolog (`swipl`) avec `storage/prolog/expert.pl`. Assurez-vous que SWI-Prolog est installé et disponible dans le PATH du système.
+- Les `ecs` renvoyés par `/api/ues/...` sont des identifiants texte; pour `/api/guidance/analyse`, ils doivent être enrichis avec des paires `{nom, note}`.
