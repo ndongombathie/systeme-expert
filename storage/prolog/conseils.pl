@@ -1,14 +1,5 @@
 :- consult(regles).
 
-% ===============================
-% CONSEILS POUR UE ÉCHOUÉES
-% ===============================
-conseil(Msg) :-
-    ue_non_validee(UE),
-    moyenne_ue(UE, M),
-    ue(UE, _, _, _, _, _),
-    atom_string(UE, UE_Str),
-    format(string(Msg), 'Revoir l''UE ~w (moyenne actuelle: ~2f/20). Reprendre les cours et TD.', [UE_Str, M]).
 
 conseil('Organiser des séances de révision hebdomadaires pour les matières faibles.') :-
     nb_ue_echouees(N), N >= 2.
@@ -22,9 +13,7 @@ conseil('Constituer un groupe de travail avec d''autres étudiants.') :-
 conseil('Envisager un tutorat individuel pour les matières critiques.') :-
     nb_ue_echouees(N), N >= 3.
 
-% ===============================
-% CONSEILS SELON CRÉDITS OBTENUS
-% ===============================
+
 conseil(Msg) :-
     credits_annuels(C),
     C < 60,
@@ -37,9 +26,7 @@ conseil('Prioriser les UE à fort coefficient pour maximiser vos chances de vali
 conseil('Identifier les UE les plus accessibles pour récupérer rapidement des crédits.') :-
     credits_annuels(C), C < 30.
 
-% ===============================
-% CONSEILS SELON LA MOYENNE
-% ===============================
+
 conseil(Msg) :-
     moyenne_annuelle(M),
     M < 10,
@@ -54,9 +41,7 @@ conseil('Refaire tous les exercices de TD et TP pour mieux assimiler.') :-
 conseil('Assister à tous les cours et prendre des notes détaillées.') :-
     moyenne_annuelle(M), M < 10.
 
-% ===============================
-% CONSEILS POUR RATTRAPAGE
-% ===============================
+
 conseil('Préparez-vous sérieusement aux examens de rattrapage. C''est votre dernière chance.') :-
     autorise_rattrapage.
 
@@ -66,18 +51,13 @@ conseil('Refaire les annales et sujets d''examens des années précédentes.') :
 conseil('Planifier un calendrier de révision strict pour les rattrapages.') :-
     autorise_rattrapage.
 
-% ===============================
-% CONSEILS POUR PASSAGE AUTOMATIQUE
-% ===============================
 conseil('Excellente performance ! Continuez sur cette lancée.') :-
     passage_automatique.
 
 conseil('Approfondir vos connaissances pour préparer le niveau supérieur.') :-
     passage_automatique.
 
-% ===============================
-% CONSEILS POUR PASSAGE CONDITIONNEL
-% ===============================
+
 conseil('Passage conditionnel obtenu. Validez les UE manquantes au prochain semestre.') :-
     passage_conditionnel.
 
@@ -89,9 +69,7 @@ conseil('Redoublez d''efforts pour améliorer votre moyenne et valider toutes le
     passage_conditionnel,
     moyenne_annuelle(M), M < 10.
 
-% ===============================
-% CONSEILS POUR REDOUBLEMENT
-% ===============================
+
 conseil('Redoublement nécessaire. Profitez-en pour consolider vos bases.') :-
     redoublement.
 
@@ -104,9 +82,7 @@ conseil('Sollicitez un entretien pédagogique pour comprendre vos difficultés.'
 conseil('Établissez un planning de travail réaliste et tenez-vous y.') :-
     redoublement.
 
-% ===============================
-% CONSEILS MÉTHODOLOGIQUES GÉNÉRAUX
-% ===============================
+
 conseil('Participez activement en cours et posez des questions.') :-
     moyenne_annuelle(M), M < 12.
 
@@ -116,9 +92,7 @@ conseil('Utilisez des fiches de révision pour synthétiser les notions clés.')
 conseil('Faites des pauses régulières pour optimiser votre concentration.') :-
     nb_ue_echouees(N), N >= 2.
 
-% ===============================
-% RÉCUPÉRATION DES CONSEILS
-% ===============================
+
 conseils(L) :-
     findall(C, conseil(C), L_avec_doublons),
-    list_to_set(L_avec_doublons, L).  % Éliminer les doublons
+    list_to_set(L_avec_doublons, L).
