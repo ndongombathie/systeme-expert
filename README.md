@@ -89,11 +89,6 @@ Réponse réussie (`200 OK`):
 }
 ```
 
-## Codes source associés
-
-- Routes API: [api.php](file:///c:/Users/NDONGO/Desktop/Master%201/Semestre%201/Introduction%20IA/systeme-expert/routes/api.php)
-- Contrôleur: [GuidanceController.php](file:///c:/Users/NDONGO/Desktop/Master%201/Semestre%201/Introduction%20IA/systeme-expert/app/Http/Controllers/GuidanceController.php)
-- Données UFR/UE: [ufr_set.php](file:///c:/Users/NDONGO/Desktop/Master%201/Semestre%201/Introduction%20IA/systeme-expert/config/ufr_set.php)
 
 ## Notes techniques
 
