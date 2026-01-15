@@ -18,10 +18,11 @@ ue(mathematique, informatique, l1, 1, 8, 3).
 ue(physique, informatique, l1, 1, 8, 3).
 ue(humanites_et_entreprises, informatique, l1, 1, 6, 2).
 ue(reseau_et_systeme, informatique, l2, 2, 6, 2).
-ue(systeme_information, informatique, l2, 3, 6, 2).
-ue(programmation, informatique, l3, 4, 6, 2).
-ue(genie_logiciel, informatique, l3, 5, 6, 2).
-ue(informatique, informatique, l3, 6, 6, 2).
+
+ue(systeme_information, informatique, l2, 3, 15, 2).
+ue(programmation, informatique, l3, 4, 15, 2).
+ue(genie_logiciel, informatique, l3, 5, 15, 2).
+ue(informatique, informatique, l3, 6, 15, 2).
 
 
 

@@ -77,4 +77,3 @@ decision(D, J) :-
         D = 'Redoublement',
         J = 'Crédits insuffisants'
     ).
-
