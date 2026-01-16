@@ -35,6 +35,9 @@ credits_annuels(Total) :-
     sum_list(L, Total).
 
 
+% Changement de filière ou de niveau ne peut être effectué qu'à l'année 1
+changement_filere :- filiere(_), niveau(l1).
+
 moyenne_annuelle(Moy) :-
     findall(MC,
         ( ue(UE, _, _, _, _, Coef),

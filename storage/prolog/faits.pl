@@ -45,3 +45,17 @@ ue(hydraulique, sciences_eaux_env, l3, 5, 6, 2).
 ue(traitement_eaux, sciences_eaux_env, l3, 6, 6, 2).
 ue(environnement, sciences_eaux_env, m1, 1, 6, 2).
 ue(developpement_durable, sciences_eaux_env, m2, 3, 6, 2).
+
+% MATHEMATIQUES-INFORMATIQUE
+ue(analyse, math_info, l1, 1, 8, 3).
+ue(algebra_lineaire, math_info, l1, 1, 8, 3).
+ue(programmation, math_info, l1, 2, 6, 2).
+ue(structures_de_donnees, math_info, l1, 2, 6, 2).
+ue(probabilites_statistiques, math_info, l2, 3, 6, 2).
+ue(algorithme, math_info, l2, 3, 6, 2).
+ue(algebre, math_info, l3, 5, 6, 2).
+ue(optimisation, math_info, l3, 5, 6, 2).
+
+
+
+

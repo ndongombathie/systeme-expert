@@ -1,5 +1,7 @@
 :- consult(regles).
 
+conseil('Changer de filière ou de spécialité si nécessaire.') :-
+    changement_filere.
 
 conseil('Organiser des séances de révision hebdomadaires pour les matières faibles.') :-
     nb_ue_echouees(N), N >= 2.
