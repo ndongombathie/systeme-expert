@@ -10,6 +10,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/ues/{filiere}/{niveau}', [GuidanceController::class,'getUes']);
+Route::post('/change_filere', [GuidanceController::class,'change_filere']);
 Route::post('/guidance/analyse', [GuidanceController::class,'analyse']);
 
 

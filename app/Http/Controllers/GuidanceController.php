@@ -73,14 +73,15 @@ class GuidanceController extends Controller
 
     public function change_filere(Request $request)
     {
-        $filiere = $request->filiere;
+
         $niveau = $request->niveau;
-        $path = storage_path('prolog/expert.pl');
+        $path = storage_path('prolog/changement.pl');
         $path = str_replace('\\', '/', $path);
-        $query = "assert(filiere('$filiere')),assert(niveau('$niveau')).";
+        $query = "assert(niveau($niveau)),run(N),write(N).";
         $cmd = "swipl -q -s \"$path\" -g \"$query\" -t halt";
         $out = shell_exec($cmd);
         Log::info($cmd);
         Log::info("SWIPL Output: " . $out);
+        return response()->json($this->parsePrologList($out));
     }
 }

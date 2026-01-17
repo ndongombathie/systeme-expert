@@ -25,7 +25,6 @@ return [
     ['code'=>'programmation','nom'=>'programmation','ecs'=>['programmation_mobile','programmation_orientee_objet']],
     ['code'=>'genie_logiciel','nom'=>'genie_logiciel','ecs'=>['developpement_web','introduction_au_genie_logiciel']],
     ['code'=>'informatique','nom'=>'informatique','ecs'=>['base_de_donnees_avancee','programmation_fonctionelle']],
-    ['code'=>'systeme_information','nom'=>'systeme_information','ecs'=>['analyse_et_conception','introduction_aux_base_de_donnees']],
     ['code'=>'humanites_et_entreprises','nom'=>'humanites_et_entreprises','ecs'=>['creation_entreprise','anglais_5']],
   ]
  ],

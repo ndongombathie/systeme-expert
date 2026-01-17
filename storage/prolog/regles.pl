@@ -1,7 +1,7 @@
 :- consult(faits).
 :- dynamic ec/3.
+:- dynamic niveau/1.
 % ec(UE, EC, Note)
-
 
 moyenne_ue(UE, Moy) :-
     findall(N, ec(UE, _, N), L),
